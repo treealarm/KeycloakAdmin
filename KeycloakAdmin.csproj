@@ -27,5 +27,7 @@
     <Title>Keycloak Admin Client Library</Title>
   </PropertyGroup>
 
-
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
 </Project>
