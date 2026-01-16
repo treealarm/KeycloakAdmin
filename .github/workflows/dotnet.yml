@@ -27,3 +27,9 @@ jobs:
 
     - name: Build
       run: dotnet build --configuration Release KeycloakAdmin.sln
+      
+    - name: Push to NuGet
+      run: dotnet nuget push "**/*.nupkg" \
+        --source https://api.nuget.org/v3/index.json \
+        --api-key ${{ secrets.NUGET_API_KEY }} \
+        --skip-duplicate
