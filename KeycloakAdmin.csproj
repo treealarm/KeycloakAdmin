@@ -11,4 +11,17 @@
     <PackageReference Include="Microsoft.IdentityModel.Tokens" Version="8.14.0" />
   </ItemGroup>
 
+  <PropertyGroup>
+    <PackageId>KeycloakAdmin</PackageId>
+    <Version>1.0.1</Version>
+    <Authors>Danil Serov</Authors>
+    <Company>TreeAlarm</Company>
+    <Description>A .NET library for interacting with Keycloak basic functions.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/treealarm/KeycloakAdmin</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+
 </Project>
