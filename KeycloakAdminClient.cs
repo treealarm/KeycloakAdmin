@@ -519,6 +519,41 @@ namespace KeycloakAdmin
       }
     }
 
+    // Sets a user's password outright (not temporary: a temporary one makes Keycloak refuse the
+    // password grant with "Account is not fully set up", and that grant is how these users log in).
+    public async Task<bool> SetPasswordAsync(string realmName, string userName, string password)
+    {
+      var user = await FindUserAsync(realmName, userName);
+      if (user == null)
+        return false;
+
+      return await _client.ResetUserPasswordAsync(realmName, user.Id,
+        new Credentials { Type = "password", Value = password, Temporary = false });
+    }
+
+    // Takes one realm role from a user and leaves the rest alone. False when the user does not have
+    // it, or does not exist.
+    public async Task<bool> RemoveRealmRoleFromUserAsync(string realmName, string userName, string roleName)
+    {
+      var user = await FindUserAsync(realmName, userName);
+      if (user == null)
+        return false;
+
+      var role = (await _client.GetRealmRoleMappingsForUserAsync(realmName, user.Id))
+        .FirstOrDefault(r => r.Name == roleName);
+      if (role == null)
+        return false;
+
+      return await _client.DeleteRealmRoleMappingsFromUserAsync(realmName, user.Id, [role]);
+    }
+
+    // Keycloak's username search matches substrings: "admin" also finds "admin2".
+    private async Task<User?> FindUserAsync(string realmName, string userName)
+    {
+      var users = await _client.GetUsersAsync(realmName, username: userName);
+      return users?.FirstOrDefault(u => string.Equals(u.UserName, userName, StringComparison.OrdinalIgnoreCase));
+    }
+
     public async Task<RsaSecurityKey?> GetRealmPublicKeyAsync(string realm, string? kid = null)
     {
       // Получаем OpenID конфигурацию

@@ -37,6 +37,8 @@ namespace KeycloakAdmin
     Task<IEnumerable<User>> GetUsersAsync(string realmName);
     Task<IEnumerable<Role>> GetUserRolesAsync(string realmName, string userName);
     Task<bool> DeleteUserAsync(string realmName, string userТфьу);
+    Task<bool> SetPasswordAsync(string realmName, string userName, string password);
+    Task<bool> RemoveRealmRoleFromUserAsync(string realmName, string userName, string roleName);
     Task<RsaSecurityKey?> GetRealmPublicKeyAsync(string realm, string? kid = null);
     Task<Token> GetTokenAsync(string realm, string clientId, string username, string password);
 
